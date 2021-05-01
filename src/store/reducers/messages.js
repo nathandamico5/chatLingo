@@ -41,7 +41,8 @@ export const NewMessageFromServer = (message) => {
       );
       const translatedMessage = translation.data.translations[0].translatedText;
       message.content = translatedMessage;
-      dispatch(gotNewMessageFromServer(message));
+      if (message.userId !== user.id)
+        dispatch(gotNewMessageFromServer(message));
     } catch (error) {
       throw error;
     }
@@ -50,10 +51,12 @@ export const NewMessageFromServer = (message) => {
 
 // Thunks
 export const getMessages = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const user = getState().auth;
     try {
       const { data: messages } = await chatLingo.get("/messages");
-      dispatch(setMessages(messages));
+      const translatedMessages = await translateMessages(messages, user);
+      dispatch(setMessages(translatedMessages));
     } catch (error) {
       throw error;
     }
@@ -97,3 +100,22 @@ export default function messagesReducer(state = initialState, action) {
       return state;
   }
 }
+
+// Translate Messages
+const translateMessages = async (messages, user) => {
+  const translations = await Promise.all(
+    messages.map(async (message) => {
+      const { data: translation } = await axios.post(
+        "https://translation.googleapis.com/language/translate/v2?key=AIzaSyBBvb0nICbDMDAt-BB3IwxmaQBebf_Wve4",
+        {
+          q: `${message.content}`,
+          target: `${user.language}`,
+        }
+      );
+      const translatedMessage = translation.data.translations[0].translatedText;
+      message.content = translatedMessage;
+      return message;
+    })
+  );
+  return translations;
+};
