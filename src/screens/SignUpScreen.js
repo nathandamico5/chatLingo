@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Alert,
-  View,
+  KeyboardAvoidingView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -36,7 +36,7 @@ const SignUpScreen = ({ navigation, signUp, user }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.title}>Sign Up</Text>
       <Picker
         style={styles.picker}
@@ -70,7 +70,7 @@ const SignUpScreen = ({ navigation, signUp, user }) => {
       >
         <Text style={styles.btnText}>Sign Up</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

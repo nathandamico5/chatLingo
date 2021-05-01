@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Alert,
-  View,
+  KeyboardAvoidingView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -20,7 +20,7 @@ const LogInScreen = ({ navigation, logIn, user }) => {
       setInitialRender(false);
     } else {
       if (user.id) {
-        navigation.navigate("ChatScreen");
+        navigation.navigate("ChatListScreen");
       } else {
         Alert.alert("Log in attempt failed. Please try again.");
       }
@@ -34,7 +34,7 @@ const LogInScreen = ({ navigation, logIn, user }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -57,7 +57,7 @@ const LogInScreen = ({ navigation, logIn, user }) => {
       >
         <Text style={styles.btnText}>Log In</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
