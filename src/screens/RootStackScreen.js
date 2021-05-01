@@ -5,8 +5,13 @@ import SplashScreen from "./SplashScreen";
 import LogInScreen from "./LogInScreen";
 import SignUpScreen from "./SignUpScreen";
 import SettingsScreen from "./SettingsScreen";
+import ChatListScreen from "./ChatListScreen";
 
 const RootStack = createStackNavigator();
+export const navigationRef = React.createRef();
+export function navigate(name, params) {
+  navigationRef.current.navigate(name, params);
+}
 
 const RootStackScreen = () => {
   return (
@@ -26,6 +31,11 @@ const RootStackScreen = () => {
           options={{ headerShown: false }}
           name="SignUpScreen"
           component={SignUpScreen}
+        />
+        <RootStack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="ChatListScreen"
+          component={ChatListScreen}
         />
         <RootStack.Screen
           options={{ headerShown: false }}
