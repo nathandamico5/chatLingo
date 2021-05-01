@@ -15,7 +15,7 @@ class MessagesList extends React.Component {
       <ScrollView style={styles.container}>
         {messages.length ? (
           messages.map((message, idx) => (
-            <Message key={idx} content={message.content} />
+            <Message key={idx} message={message} />
           ))
         ) : (
           <Text>No Messages</Text>

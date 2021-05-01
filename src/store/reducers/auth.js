@@ -1,4 +1,5 @@
 import chatLingo from "../../api/chatLingo";
+import { AsyncStorage } from "react-native";
 
 const TOKEN = "token";
 
@@ -13,26 +14,42 @@ const setAuth = (auth) => ({
 
 // THUNK CREATORS
 export const getCurrentUser = () => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
+  const token = await AsyncStorage.getItem(TOKEN);
   if (token) {
     const { data: user } = await chatLingo.get("/auth", {
       headers: {
         authorization: token,
       },
     });
-    console.log(user);
     return dispatch(setAuth(user));
   }
 };
 
-export const authenticate = (username, password, method) => {
+export const signUp = (username, password, language) => {
   return async (dispatch) => {
     try {
-      const { data: auth } = await chatLingo.post(`/auth/${method}`, {
+      console.log(username, password, language);
+      const { data: auth } = await chatLingo.post(`/auth/signup`, {
+        username,
+        password,
+        language,
+      });
+      await AsyncStorage.setItem("token", auth.token);
+      dispatch(getCurrentUser());
+    } catch (authError) {
+      return dispatch(setAuth({ error: authError }));
+    }
+  };
+};
+
+export const logIn = (username, password) => {
+  return async (dispatch) => {
+    try {
+      const { data: auth } = await chatLingo.post(`/auth/login`, {
         username,
         password,
       });
-      window.localStorage.setItem(TOKEN, auth.token);
+      await AsyncStorage.setItem("token", auth.token);
       dispatch(getCurrentUser());
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));
@@ -41,9 +58,8 @@ export const authenticate = (username, password, method) => {
 };
 
 export const logout = () => {
-  return (dispatch) => {
-    window.localStorage.removeItem(TOKEN);
-    history.push("/login");
+  return async (dispatch) => {
+    await AsyncStorage.removeItem("token");
     dispatch(setAuth({}));
   };
 };

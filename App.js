@@ -1,13 +1,18 @@
 import "react-native-gesture-handler";
 import React from "react";
-import Chat from "./src/screens/Chat";
 import { Provider } from "react-redux";
 import store from "./src/store";
+import RootStackScreen from "./src/screens/RootStackScreen";
+import { NavigationContainer } from "@react-navigation/native";
 
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
-      <Chat />
+      <NavigationContainer>
+        <RootStackScreen />
+      </NavigationContainer>
     </Provider>
   );
-}
+};
+
+export default App;
