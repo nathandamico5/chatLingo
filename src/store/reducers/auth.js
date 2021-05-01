@@ -1,5 +1,6 @@
 import chatLingo from "../../api/chatLingo";
 import { AsyncStorage } from "react-native";
+import { getMessages } from "./messages";
 
 const TOKEN = "token";
 
@@ -61,6 +62,29 @@ export const logout = () => {
   return async (dispatch) => {
     await AsyncStorage.removeItem("token");
     dispatch(setAuth({}));
+  };
+};
+
+export const saveSettings = (language) => {
+  return async (dispatch) => {
+    const token = await AsyncStorage.getItem(TOKEN);
+    try {
+      const { data: auth } = await chatLingo.put(
+        `/auth`,
+        {
+          language,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch(setAuth(auth));
+      dispatch(getMessages());
+    } catch (error) {
+      throw error;
+    }
   };
 };
 

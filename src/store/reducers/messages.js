@@ -11,7 +11,7 @@ const NEW_MESSAGE = "NEW_MESSAGE";
 const GOT_NEW_MESSAGE_FROM_SERVER = "GOT_NEW_MESSAGE_FROM_SERVER";
 
 // Action Creators
-const setMessages = (messages) => ({
+export const setMessages = (messages) => ({
   type: SET_MESSAGES,
   messages,
 });
@@ -102,7 +102,7 @@ export default function messagesReducer(state = initialState, action) {
 }
 
 // Translate Messages
-const translateMessages = async (messages, user) => {
+export const translateMessages = async (messages, user) => {
   const translations = await Promise.all(
     messages.map(async (message) => {
       const { data: translation } = await axios.post(
