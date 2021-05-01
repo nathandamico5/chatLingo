@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Picker, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { saveSettings } from "../store/reducers/auth";
+import { saveSettings, logout } from "../store/reducers/auth";
 
-const SettingsScreen = ({ user, saveSettings }) => {
+const SettingsScreen = ({ navigation, user, saveSettings }) => {
   const [language, setLanguage] = useState(user.language);
 
   const handleSaveSettings = (username, langauge) => {
     saveSettings(username, langauge);
+  };
+
+  const handleLogOut = () => {
+    logout();
+    navigation.navigate("SplashScreen");
   };
 
   return (
@@ -30,6 +35,9 @@ const SettingsScreen = ({ user, saveSettings }) => {
       >
         <Text style={styles.btnText}>Save Settings</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.btn} onPress={() => handleLogOut()}>
+        <Text style={styles.btnText}>Log Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -40,6 +48,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   saveSettings: (language) => dispatch(saveSettings(language)),
+  logout: () => dispatch(logout()),
 });
 
 export default connect(mapState, mapDispatch)(SettingsScreen);
