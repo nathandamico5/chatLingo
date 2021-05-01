@@ -21,8 +21,11 @@ class SendMessage extends React.Component {
   }
 
   sendMessage() {
-    this.props.sendMessage(this.state.message);
-    this.setState(initialState);
+    const message = this.state.message.trim();
+    if (message) {
+      this.props.sendMessage(this.state.message);
+      this.setState(initialState);
+    }
   }
 
   render() {
