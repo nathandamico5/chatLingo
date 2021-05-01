@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Alert, View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { connect } from "react-redux";
 import { logIn } from "../store/reducers/auth";
 
 const LogInScreen = ({ navigation, logIn, user }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [initialRender, setInitialRender] = useState(true);
 
   useEffect(() => {
-    if (user.id) {
-      navigation.navigate("ChatScreen");
+    if (initialRender) {
+      setInitialRender(false);
     } else {
-      Alert.alert("Log in attempt failed. Please try again.");
+      if (user.id) {
+        navigation.navigate("ChatScreen");
+      } else {
+        Alert.alert("Log in attempt failed. Please try again.");
+      }
     }
   }, [user]);
 
@@ -33,26 +45,38 @@ const LogInScreen = ({ navigation, logIn, user }) => {
       />
       <TextInput
         style={styles.input}
+        secureTextEntry={true}
         type="text"
         placeholder="Password"
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button
-        color="#ffffff"
-        title="Log In"
+      <TouchableOpacity
+        style={styles.btn}
         onPress={() => handleLogIn(username, password)}
-      />
+      >
+        <Text style={styles.btnText}>Log In</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const mapState = (state) => ({
+  user: state.auth,
+});
+
+const mapDispatch = (dispatch) => ({
+  logIn: (username, password) => dispatch(logIn(username, password)),
+});
+
+export default connect(mapState, mapDispatch)(LogInScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6C8EAD",
+    backgroundColor: "#1d344e",
   },
   title: {
     color: "#ffffff",
@@ -64,15 +88,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "#ffffff",
     width: "90%",
+    borderRadius: 10,
+  },
+  btn: {
+    backgroundColor: "#cccccc",
+    width: "90%",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  btnText: {
+    fontSize: 15,
+    fontWeight: "600",
   },
 });
-
-const mapState = (state) => ({
-  user: state.auth,
-});
-
-const mapDispatch = (dispatch) => ({
-  logIn: (username, password) => dispatch(logIn(username, password)),
-});
-
-export default connect(mapState, mapDispatch)(LogInScreen);

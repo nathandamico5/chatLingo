@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 
 const Message = ({ message, user }) => {
+  const messageUserID = message.user.username.substring(0, 2).toUpperCase();
   return (
     <React.Fragment>
       {message.userId === user.id ? (
@@ -13,6 +14,9 @@ const Message = ({ message, user }) => {
         </View>
       ) : (
         <View style={styles.otherMessageRow}>
+          <View style={styles.userID}>
+            <Text style={styles.userIDText}>{messageUserID}</Text>
+          </View>
           <View style={styles.toMe}>
             <Text style={styles.text}>{message.content}</Text>
           </View>
@@ -44,6 +48,23 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#000000",
+  },
+  userID: {
+    backgroundColor: "#1d344e",
+    width: 50,
+    borderRadius: 50,
+    alignItems: "center",
+    padding: 10,
+    marginLeft: 5,
+  },
+  userIDText: {
+    color: "#ffffff",
+    fontWeight: "600",
+  },
+  otherMessageRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

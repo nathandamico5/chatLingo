@@ -1,18 +1,26 @@
-import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { ScrollView, Text, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import { getMessages } from "../store/reducers/messages";
 import Message from "./Message";
 
-class MessagesList extends React.Component {
-  componentDidMount() {
-    this.props.getMessages();
-  }
+const MessagesList = ({ messages, getMessages }) => {
+  useEffect(() => {
+    getMessages();
+  }, []);
 
-  render() {
-    const { messages } = this.props;
-    return (
-      <ScrollView style={styles.container}>
+  const scrollViewRef = useRef();
+  return (
+    <ScrollView
+      style={styles.container}
+      ref={scrollViewRef}
+      onContentSizeChange={() =>
+        scrollViewRef.current.scrollToEnd({
+          animated: true,
+        })
+      }
+    >
+      <View style={styles.messages}>
         {messages.length ? (
           messages.map((message, idx) => (
             <Message key={idx} message={message} />
@@ -20,14 +28,20 @@ class MessagesList extends React.Component {
         ) : (
           <Text>No Messages</Text>
         )}
-      </ScrollView>
-    );
-  }
-}
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: "90%",
+    height: "90%",
+    backgroundColor: "#cccccc",
+  },
+  messages: {
+    height: "100%",
+    display: "flex",
+    justifyContent: "space-between",
   },
 });
 

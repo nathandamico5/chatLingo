@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, KeyboardAvoidingView, StyleSheet } from "react-native";
+import { TextInput, View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { sendMessage } from "../store/reducers/messages";
 
@@ -27,7 +27,7 @@ class SendMessage extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="position">
+      <View style={styles.sendMessage}>
         <TextInput
           style={styles.input}
           value={this.state.message}
@@ -36,14 +36,14 @@ class SendMessage extends React.Component {
           onSubmitEditing={this.sendMessage}
           onChange={this.handleChange}
         />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   input: {
-    padding: 10,
+    padding: 20,
     backgroundColor: "#ffffff",
   },
 });
