@@ -12,6 +12,7 @@ import SendMessage from "../components/SendMessage";
 
 const Chat = ({ navigation, route }) => {
   const contactID = route.params.contact;
+  const chatName = route.params.username;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -19,7 +20,7 @@ const Chat = ({ navigation, route }) => {
           style={styles.title}
           onPress={() => navigation.navigate("ChatListScreen")}
         >
-          ChatLingo
+          {chatName}
         </Text>
       </View>
       <KeyboardAvoidingView behavior="position">
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     color: "#cccccc",
     padding: 10,
     width: "75%",
+    textTransform: "capitalize",
   },
   container: {
     flex: 1,

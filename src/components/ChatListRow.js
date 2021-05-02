@@ -8,7 +8,9 @@ const ChatListRow = ({ chat, chatID }) => {
   return (
     <TouchableOpacity
       style={styles.chatRow}
-      onPress={() => navigate("ChatScreen", { contact: chatID })}
+      onPress={() =>
+        navigate("ChatScreen", { contact: chatID, username: chat })
+      }
     >
       <View style={styles.abrev}>
         <Text style={styles.abrevText}>{chatAbrev}</Text>
