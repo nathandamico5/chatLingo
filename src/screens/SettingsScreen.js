@@ -24,10 +24,14 @@ const SettingsScreen = ({ navigation, user, saveSettings }) => {
       >
         <Picker.Item label="English" value="en" />
         <Picker.Item label="Español" value="es" />
-        <Picker.Item label="français" value="fr" />
+        <Picker.Item label="Français" value="fr" />
         <Picker.Item label="Deutsche" value="de" />
         <Picker.Item label="普通话" value="zh" />
         <Picker.Item label="عربى" value="ar" />
+        <Picker.Item label="Italiano" value="it" />
+        <Picker.Item label="日本語" value="ja" />
+        <Picker.Item label="Swahili" value="sw" />
+        <Picker.Item label="Tagalog" value="tl" />
       </Picker>
       <TouchableOpacity
         style={styles.btn}

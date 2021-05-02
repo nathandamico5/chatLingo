@@ -45,10 +45,14 @@ const SignUpScreen = ({ navigation, signUp, user }) => {
       >
         <Picker.Item color="#ffffff" label="English" value="en" />
         <Picker.Item color="#ffffff" label="Español" value="es" />
-        <Picker.Item color="#ffffff" label="français" value="fr" />
+        <Picker.Item color="#ffffff" label="Français" value="fr" />
         <Picker.Item color="#ffffff" label="Deutsche" value="de" />
         <Picker.Item color="#ffffff" label="普通话" value="zh" />
         <Picker.Item color="#ffffff" label="عربى" value="ar" />
+        <Picker.Item color="#ffffff" label="Italiano" value="it" />
+        <Picker.Item color="#ffffff" label="日本語" value="ja" />
+        <Picker.Item color="#ffffff" label="Swahili" value="sw" />
+        <Picker.Item color="#ffffff" label="Tagalog" value="tl" />
       </Picker>
       <TextInput
         style={styles.input}

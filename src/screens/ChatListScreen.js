@@ -10,10 +10,12 @@ import {
 import { getMessages } from "../store/reducers/messages";
 import { connect } from "react-redux";
 import ChatListRow from "../components/ChatListRow";
+import { getChats } from "../store/reducers/chats";
 
-const ChatListScreen = ({ navigation, getMessages }) => {
+const ChatListScreen = ({ navigation, getMessages, chats, getChats }) => {
   useEffect(() => {
     getMessages();
+    getChats();
   }, []);
 
   return (
@@ -28,17 +30,24 @@ const ChatListScreen = ({ navigation, getMessages }) => {
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.chatList}>
-        <ChatListRow />
+        {Object.keys(chats).map((chat) => (
+          <ChatListRow key={chat} chat={chats[chat]} />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const mapDispatch = (dispatch) => ({
-  getMessages: () => dispatch(getMessages()),
+const mapState = (state) => ({
+  chats: state.chats,
 });
 
-export default connect(null, mapDispatch)(ChatListScreen);
+const mapDispatch = (dispatch) => ({
+  getMessages: () => dispatch(getMessages()),
+  getChats: () => dispatch(getChats()),
+});
+
+export default connect(mapState, mapDispatch)(ChatListScreen);
 
 const styles = StyleSheet.create({
   title: {

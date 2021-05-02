@@ -1,6 +1,7 @@
 import chatLingo from "../../api/chatLingo";
 import { AsyncStorage } from "react-native";
 import { getMessages } from "./messages";
+import socket from "../../socket";
 
 const TOKEN = "token";
 
@@ -37,6 +38,9 @@ export const signUp = (username, password, language) => {
       });
       await AsyncStorage.setItem("token", auth.token);
       dispatch(getCurrentUser());
+
+      socket.auth = { username };
+      socket.connect();
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));
     }
@@ -52,6 +56,9 @@ export const logIn = (username, password) => {
       });
       await AsyncStorage.setItem("token", auth.token);
       dispatch(getCurrentUser());
+
+      socket.auth = { username };
+      socket.connect();
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));
     }

@@ -3,6 +3,7 @@ import thunkMiddleware from "redux-thunk";
 import { combineReducers } from "redux";
 import authReducer from "./reducers/auth";
 import messagesReducer from "./reducers/messages";
+import chatReducer from "./reducers/chats";
 import { NewMessageFromServer } from "./reducers/messages";
 import socket from "../socket";
 
@@ -19,6 +20,7 @@ socket.on("new-message", (message) => {
 // Comined Reducer
 const appReducer = combineReducers({
   auth: authReducer,
+  chats: chatReducer,
   messages: messagesReducer,
 });
 
