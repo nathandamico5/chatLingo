@@ -2,6 +2,7 @@ import chatLingo from "../../api/chatLingo";
 import socket from "../../socket";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
+import { API_KEY } from "@env";
 
 const TOKEN = "token";
 
@@ -33,7 +34,7 @@ export const NewMessageFromServer = (message) => {
     const user = getState().auth;
     try {
       const { data: translation } = await axios.post(
-        "https://translation.googleapis.com/language/translate/v2?key=AIzaSyBBvb0nICbDMDAt-BB3IwxmaQBebf_Wve4",
+        `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`,
         {
           q: `${message.content}`,
           target: `${user.language}`,
@@ -112,7 +113,7 @@ export const translateMessages = async (messages, user) => {
   const translations = await Promise.all(
     messages.map(async (message) => {
       const { data: translation } = await axios.post(
-        "https://translation.googleapis.com/language/translate/v2?key=AIzaSyBBvb0nICbDMDAt-BB3IwxmaQBebf_Wve4",
+        `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`,
         {
           q: `${message.content}`,
           target: `${user.language}`,
