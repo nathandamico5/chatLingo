@@ -23,7 +23,7 @@ class SendMessage extends React.Component {
   sendMessage() {
     const message = this.state.message.trim();
     if (message) {
-      this.props.sendMessage(this.state.message);
+      this.props.sendMessage(this.state.message, this.props.contact);
       this.setState(initialState);
     }
   }
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatch = (dispatch) => ({
-  sendMessage: (message) => dispatch(sendMessage(message)),
+  sendMessage: (message, contact) => dispatch(sendMessage(message, contact)),
 });
 
 export default connect(null, mapDispatch)(SendMessage);

@@ -53,8 +53,13 @@ export const NewMessageFromServer = (message) => {
 export const getMessages = () => {
   return async (dispatch, getState) => {
     const user = getState().auth;
+    const token = await AsyncStorage.getItem(TOKEN);
     try {
-      const { data: messages } = await chatLingo.get("/messages");
+      const { data: messages } = await chatLingo.get("/messages", {
+        headers: {
+          authorization: token,
+        },
+      });
       const translatedMessages = await translateMessages(messages, user);
       dispatch(setMessages(translatedMessages));
     } catch (error) {
@@ -63,7 +68,7 @@ export const getMessages = () => {
   };
 };
 
-export const sendMessage = (content) => {
+export const sendMessage = (content, contact) => {
   return async (dispatch) => {
     try {
       const token = await AsyncStorage.getItem(TOKEN);
@@ -71,6 +76,7 @@ export const sendMessage = (content) => {
         "/messages",
         {
           message: content,
+          toID: contact,
         },
         {
           headers: {

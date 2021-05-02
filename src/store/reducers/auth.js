@@ -30,7 +30,6 @@ export const getCurrentUser = () => async (dispatch) => {
 export const signUp = (username, password, language) => {
   return async (dispatch) => {
     try {
-      console.log(username, password, language);
       const { data: auth } = await chatLingo.post(`/auth/signup`, {
         username,
         password,

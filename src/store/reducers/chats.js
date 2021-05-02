@@ -1,5 +1,8 @@
-// import chatLingo from "../../api/chatLingo";
+import chatLingo from "../../api/chatLingo";
+import { AsyncStorage } from "react-native";
 // import socket from "../../socket";
+
+const TOKEN = "token";
 
 // Action Types
 const SET_CHATS = "SET_CHATS";
@@ -14,7 +17,21 @@ export const setChats = (chats) => ({
 export const getChats = () => {
   return async (dispatch) => {
     try {
-      dispatch(setChats({ 0: "General Chat" }));
+      const token = await AsyncStorage.getItem(TOKEN);
+      const { data: chats } = await chatLingo.get("/contacts", {
+        headers: {
+          authorization: token,
+        },
+      });
+      const allChats = {
+        0: "General Chat",
+      };
+      chats.map((chat) => {
+        const chatID = chat.id;
+        const username = chat.username;
+        allChats[chatID] = username;
+      });
+      dispatch(setChats(allChats));
     } catch (error) {
       throw error;
     }

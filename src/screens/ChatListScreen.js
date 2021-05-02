@@ -31,7 +31,7 @@ const ChatListScreen = ({ navigation, getMessages, chats, getChats }) => {
       </View>
       <ScrollView style={styles.chatList}>
         {Object.keys(chats).map((chat) => (
-          <ChatListRow key={chat} chat={chats[chat]} />
+          <ChatListRow key={chat} chat={chats[chat]} chatID={chat} />
         ))}
       </ScrollView>
     </SafeAreaView>

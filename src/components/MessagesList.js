@@ -3,8 +3,20 @@ import { ScrollView, Text, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import Message from "./Message";
 
-const MessagesList = ({ messages }) => {
+const MessagesList = ({ messages, contact, user }) => {
   const scrollViewRef = useRef();
+  const chatMessages = messages.filter((message) => {
+    if (Number(contact) === 0) {
+      return message.toID === 0;
+    } else {
+      return (
+        (message.toID === Number(contact) ||
+          message.userId === Number(contact)) &&
+        (user.id === message.toID || user.id === message.userId)
+      );
+    }
+  });
+
   return (
     <ScrollView
       style={styles.container}
@@ -16,12 +28,12 @@ const MessagesList = ({ messages }) => {
       }
     >
       <View style={styles.messages}>
-        {messages.length ? (
-          messages.map((message, idx) => (
+        {chatMessages.length ? (
+          chatMessages.map((message, idx) => (
             <Message key={idx} message={message} />
           ))
         ) : (
-          <Text>No Messages</Text>
+          <Text style={styles.empty}>No Messages</Text>
         )}
       </View>
     </ScrollView>
@@ -39,10 +51,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
   },
+  empty: {
+    alignSelf: "center",
+    paddingTop: 20,
+    fontSize: 20,
+  },
 });
 
 const mapState = (state) => ({
   messages: state.messages,
+  user: state.auth,
 });
 
 export default connect(mapState)(MessagesList);
