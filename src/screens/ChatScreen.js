@@ -26,7 +26,6 @@ const Chat = ({ navigation, route }) => {
         <MessagesList contact={contactID} />
         <SendMessage contact={contactID} />
       </KeyboardAvoidingView>
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 };

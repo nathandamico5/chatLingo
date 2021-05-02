@@ -33,6 +33,7 @@ export const NewMessageFromServer = (message) => {
   return async (dispatch, getState) => {
     const user = getState().auth;
     try {
+      // Translare message to user language
       const { data: translation } = await axios.post(
         `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`,
         {
