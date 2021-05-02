@@ -2,17 +2,19 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { navigate } from "../screens/RootStackScreen";
 
-const ChatListRow = () => {
+const ChatListRow = ({ chat, chatID }) => {
+  const chatAbrev = chat.substring(0, 2).toUpperCase();
+
   return (
     <TouchableOpacity
       style={styles.chatRow}
-      onPress={() => navigate("ChatScreen")}
+      onPress={() => navigate("ChatScreen", { contact: chatID })}
     >
       <View style={styles.abrev}>
-        <Text style={styles.abrevText}>GC</Text>
+        <Text style={styles.abrevText}>{chatAbrev}</Text>
       </View>
       <View>
-        <Text style={styles.name}>General Chat</Text>
+        <Text style={styles.name}>{chat}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -35,6 +37,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 15,
     fontWeight: "600",
+    textTransform: "capitalize",
   },
   abrev: {
     backgroundColor: "#1d344e",

@@ -10,7 +10,8 @@ import {
 import MessagesList from "../components/MessagesList";
 import SendMessage from "../components/SendMessage";
 
-const Chat = ({ navigation }) => {
+const Chat = ({ navigation, route }) => {
+  const contactID = route.params.contact;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -22,8 +23,8 @@ const Chat = ({ navigation }) => {
         </Text>
       </View>
       <KeyboardAvoidingView behavior="position">
-        <MessagesList />
-        <SendMessage />
+        <MessagesList contact={contactID} />
+        <SendMessage contact={contactID} />
       </KeyboardAvoidingView>
       <StatusBar style="auto" />
     </SafeAreaView>
